@@ -1,4 +1,4 @@
-# Quickstart Chrome Extension Template witn NPM 
+# Quickstart Chrome Extension Template with NPM
 
 Base template for quickly creating working extensions.
 
@@ -6,6 +6,19 @@ Good for people with little Chrome experience as there are examples
 of common tasks with explanations.
 
 **TODO: Global search and action for "TODO".**
+
+## Icons
+
+Generate favicon and icons at https://favicon.io.
+
+## Used technologies
+
+- [Node Package Manager](https://www.npmjs.com) for ability to import
+  dependencies.
+- [React framework](https://react.dev) for some logic in Chrome Extension
+  toolbar popup panel.
+- [Material UI](https://mui.com) for modern UI styling.
+- `@fontsource` fonts.
 
 ## Getting started with development
 
@@ -45,3 +58,7 @@ of common tasks with explanations.
 
    Turn the contents of the `build` directory into a ZIP file. Upload the ZIP
    file to the Chrome Extension Marketplace.
+
+## Typescript
+
+At the current time, Chrome Extensions do not support Typescript.
