@@ -11,6 +11,8 @@ of common tasks with explanations.
 
 Generate favicon and icons at https://favicon.io.
 
+Use https://imageresizer.com/resize for 128x128.
+
 ## Used technologies
 
 - [Node Package Manager](https://www.npmjs.com) for ability to import
