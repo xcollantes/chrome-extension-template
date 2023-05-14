@@ -1,4 +1,4 @@
-/** React root. */
+/** React root for popup. */
 
 import React from "react"
 import ReactDOM from "react-dom/client"

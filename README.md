@@ -2,8 +2,14 @@
 
 Base template for quickly creating working extensions.
 
-Good for people with little Chrome experience as there are examples
-of common tasks with explanations.
+This repo was build for beginners to Chrome Extension development and veteran
+developers who don't create new extensions often but need to create one fast.
+
+- Good for people with little Chrome experience as there are examples
+  of common tasks with explanations.
+
+- Good for quick development since the descriptions will remind you how things
+  work. See `Speed tips` for even faster development.
 
 **TODO: Global search and action for "TODO".**
 
@@ -21,6 +27,10 @@ Use https://imageresizer.com/resize for 128x128.
   toolbar popup panel.
 - [Material UI](https://mui.com) for modern UI styling.
 - `@fontsource` fonts.
+
+## Speed tips
+
+- Program in the browser console instead of `npm run build` for each change
 
 ## Getting started with development
 

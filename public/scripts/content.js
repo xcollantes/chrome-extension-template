@@ -1,5 +1,7 @@
 /** Interacts with the page assigned in manifest.json.
  *
+ * Output to console will appear in the respective browser page.   
+ *
  * This content script can only manipulate the `matches` property of the
  * `content_scripts` field in the manifest.json.
  *
