@@ -34,43 +34,133 @@ Use https://imageresizer.com/resize for 128x128.
 
 ## Getting started with development
 
-1. Install dependencies.
+### 1. Change code files
 
-   ```bash
-   npm install
-   ```
+`public` directory is the conventional Chrome extension files. This contains
+the logic for the extension.
 
-1. Make code changes.
+`src` directory contains the React related files. This is shown only in the
+popup when clicking on the extension icon.
 
-1. Build package.
+- `background.js` - Service worker script which overrides listeners.
+- `content_scripts/` - Controls the Document Object Model. Use `document.*` in
+  this file.
+  - `content.js`
+  - `other.js`
+- `images/` - Images used by extension
+- `popup/` - Resources for pop up window when clicking on extension icon.
+  - `popup.html`
+  - `popup.js`
+  - `popup.css`
 
-   This project uses npm with the Chrome Extension.
+### 2. Install dependencies
 
-   To build and further upload, sideload, or distribute the extension, run
-   `npm run build` which will create a `build` directory which should be pointed
-   to when loading into a Chromium type browser.
+```bash
+npm install
+```
 
-   As compared to a conventional Chrome Extension, the `manifest.json`,
-   `background.js` script, etc. are found in the `public` directory.
+### 3. Build package
 
-   The contents of React app are found in the `src` directory.
+This project uses npm with the Chrome Extension.
 
-1. Sideload on local Chrome or Chromium based browser. A `build` directory which
-   should be pointed to when loading into a Chromium type browser.
+To build and further upload, sideload, or distribute the extension, run
+`npm run build` which will create a `build` directory which should be pointed
+to when loading into a Chromium type browser.
 
-   https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked
+As compared to a conventional Chrome Extension, the `manifest.json`,
+`background.js` script, etc. are found in the `public` directory.
 
-1. Look at errors in different consoles depending on the script.
+The contents of React app are found in the `src` directory.
 
-   https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#logs
+### 4. Load extension locally
 
-1. Deploy to Chrome Extension Marketplace.
+Sideload on local Chrome or Chromium based browser. A `build` directory which
+should be pointed to when loading into a Chromium type browser.
 
-   Make sure you have an developer account with required application info.
+https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#load-unpacked
 
-   Turn the contents of the `build` directory into a ZIP file. Upload the ZIP
-   file to the Chrome Extension Marketplace.
+### 5. Debug errors
+
+Errors can be found in different consoles depending on the script
+
+https://developer.chrome.com/docs/extensions/mv3/getstarted/development-basics/#logs
+
+### 6. Deploy to Chrome Extension Marketplace
+
+Make sure you have an developer account with required application info.
+
+Turn the contents of the `build` directory into a ZIP file. Upload the ZIP
+file to the Chrome Extension Marketplace.
+
+## Service worker vs content_scripts
+
+**Service workers** (background script in v2) work in the context of the
+extension and can access Chrome API's with listeners.
+
+The Document object cannot be accessed from the Service workers.
+
+**Content scripts** only work when they are needed. Otherwise, they become
+inactive. Content scripts can call on storage, i18n, and runtime directly.
+
+## Storing data
+
+The `service_worker` or background.js contains the listeners but the document
+page is manipulated in `content_scripts`. Since `service_workers` are not
+persistent, store data in the `storage` API.
+
+## Message passing
+
+Scripts work independently of each other and so to communicate data, the data
+must be passed through a message:
+https://developer.chrome.com/docs/extensions/develop/concepts/messaging
+
+Data can also be passed between background.js, popup.js, and content_scripts
+through "messages".
+
+**background, options, popup, or content -> background, options, popup.**
+
+`chrome.runtime.sendMessage(MESSAGE, CALLBACK);`
+
+```js
+chrome.runtime.sendMessage("some message", (response) => {
+  console.log(response)
+})
+```
+
+**background, popup -> content.**
+
+`chrome.tabs.sendMessage(TAB_ID, MESSAGE, CALLBACK);`
+
+```js
+chrome.tabs.sendMessage("tab id", "some message", (response) => {
+  console.log(response)
+})
+```
+
+Receive the data by using:
+
+```js
+chrome.runtime.onMessage.addListener(request, sender, (sendResponse) => {
+  if (request.message === "get_name") {
+    sendResponse("My name")
+  } else if (request.message === "change_name") {
+    chrome.storage.local.set({ name: request.payload }, () => {
+      if (chrome.runtime.lastError) {
+        sendResponse({ message: "fail" })
+      } else {
+        sendResponse({ message: "success" })
+      }
+    })
+  }
+
+  return true // Add this for asynchronous functions.
+})
+```
 
 ## Typescript
 
 At the current time, Chrome Extensions do not support Typescript.
+
+## Useful tutorials
+
+https://developer.chrome.com/docs/extensions/get-started/tutorial/scripts-activetab
