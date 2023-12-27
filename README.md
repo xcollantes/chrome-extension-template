@@ -11,8 +11,6 @@ developers who don't create new extensions often but need to create one fast.
 - Good for quick development since the descriptions will remind you how things
   work. See `Speed tips` for even faster development.
 
-**TODO: Global search and action for "TODO".**
-
 ## Icons
 
 Generate favicon and icons at https://favicon.io.
@@ -36,15 +34,15 @@ Use https://imageresizer.com/resize for 128x128.
 
 ### 1. Change code files
 
-`public` directory is the conventional Chrome extension files. This contains
-the logic for the extension.
-
 `src` directory contains the React related files. This is shown only in the
 popup when clicking on the extension icon.
 
+`public` directory is the conventional Chrome extension files. This contains
+the logic for the extension.
+
 - `background.js` - Service worker script which overrides listeners.
 - `content_scripts/` - Controls the Document Object Model. Use `document.*` in
-  this file.
+  this file. _This is where the core logic is written for controlling the webpage._
   - `content.js`
   - `other.js`
 - `images/` - Images used by extension
@@ -52,6 +50,9 @@ popup when clicking on the extension icon.
   - `popup.html`
   - `popup.js`
   - `popup.css`
+
+**NOTE:** Search for "TODO" for notes on which pieces need the immediate
+attention. _REMOVE_ the TODO comments once actioned or errors will be shown.
 
 ### 2. Install dependencies
 
